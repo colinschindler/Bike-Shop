@@ -1,5 +1,8 @@
 // script.js
 let ticket = [];
+let subTotalPrice = 0;
+let taxRate = .087;
+let taxPrice = 0;
 let totalPrice = 0;
 
 function addToTicket(service, price) {
@@ -9,18 +12,25 @@ function addToTicket(service, price) {
 
 function updateTicket() {
     const ticketList = document.getElementById('ticket-list');
+    const subTotalPriceElement = document.getElementById('sub-total-price');
+    const taxPriceElement = document.getElementById('tax-price');
     const totalPriceElement = document.getElementById('total-price');
     ticketList.innerHTML = '';
-    totalPrice = 0;
+    subTotalPrice = 0;
 
     ticket.forEach(item => {
         const li = document.createElement('li');
         li.textContent = `${item.service} - $${item.price}`;
         ticketList.appendChild(li);
-        totalPrice += item.price;
+        subTotalPrice += item.price;
+        taxPrice = subTotalPrice * taxRate;
+        totalPrice = taxPrice + subTotalPrice;
     });
 
-    totalPriceElement.textContent = totalPrice;
+    subTotalPriceElement.textContent = subTotalPrice;
+    taxPriceElement.textContent = taxPrice.toFixed(2);
+    totalPriceElement.textContent = totalPrice.toFixed(2);
+
 }
 
 function scheduleService() {
